@@ -1,0 +1,46 @@
+name: Deno Install Benchmarks
+
+on:
+  push:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bench:
+    name: Bench (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Install hyperfine
+        uses: taiki-e/install-action@v2
+        with:
+          tool: hyperfine
+
+      - name: Setup deno-2.7.1 binary
+        shell: bash
+        run: |
+          deno upgrade 2.7.1
+          cp ~/.deno/bin/deno ~/deno-2.7.1
+
+      - name: Setup deno canary as system deno
+        shell: bash
+        run: |
+          deno upgrade 3f459413b2d18458268024d1ce0dad715240c2ce
+
+      - name: Run benchmarks
+        shell: bash
+        run: |
+          bash bench-all.sh
