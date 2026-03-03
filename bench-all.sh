@@ -9,7 +9,7 @@ for dir in fixtures/*/; do
   cd "$dir"
   hyperfine --warmup 2 -N \
     --prepare "bash ../../prepare.sh" \
-    -n=deno-2.7.1 "$HOME/Documents/Code/misc/deno-2.7.1 install" \
+    -n=deno-2.7.1 "$HOME/deno-2.7.1 install" \
     -n=deno-canary "deno install"
   cd - >/dev/null
 done
