@@ -7,7 +7,7 @@ for dir in fixtures/*/; do
   name=$(basename "$dir")
   echo "=== $name ==="
   cd "$dir"
-  hyperfine --warmup 10 --runs 25 -N \
+  hyperfine --warmup 5 --min-runs 10 -N \
     --prepare "deno run -A ../../prepare.ts" \
     -n deno-2.7.1 "$HOME/deno-2.7.1 install" \
     -n deno-canary "deno install"
