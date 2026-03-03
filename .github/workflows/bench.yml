@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: |
           deno upgrade 2.7.1
-          cp ~/.deno/bin/deno ~/deno-2.7.1
+          cp "$(which deno)" ~/deno-2.7.1
 
       - name: Setup deno canary as system deno
         shell: bash
