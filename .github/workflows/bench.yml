@@ -40,13 +40,6 @@ jobs:
         run: |
           deno upgrade 3f459413b2d18458268024d1ce0dad715240c2ce
 
-      - name: Remove WSL bash from PATH
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          $newPath = ($env:PATH -split ';' | Where-Object { $_ -notlike '*system32*' }) -join ';'
-          echo "PATH=$newPath" >> $env:GITHUB_ENV
-
       - name: Run benchmarks
         shell: bash
         run: |
